@@ -1,32 +1,6 @@
-#include <unistd.h>
-#include <stdlib.h>
-
-char    *ft_strdup(const char *s)
-{
-    char    *arr;
-    int     i;
-    int     length;
-
-    length = 0;
-    i = 0;
-    while (s[length])
-        length++;
-    arr = malloc(sizeof(char) * (length + 1));
-    if (!arr)
-        return (NULL);
-    if (s[i] == '\0')
-    {
-        arr[0] = '\0';
-        return (arr);
-    }
-    while (s[i] && i <= length)
-    {
-        arr[i] = s[i];
-        i++;
-    }
-    arr[i] = '\0';
-    return (arr);
-}
+#include "ft_printf.h"
+#include "libft/libft.h"
+#include <stdarg.h>
 static char    *ft_checklowupcase(int a)
 {
     char    *letters;
@@ -100,14 +74,6 @@ void    ft_pointeradress(void *p)
 {
     size_t  val_ptr;
     val_ptr = (size_t)p;
-    write(1, "0x", 2);
+    ft_putstr_fd("0x", 1);
     ft_putstr_fd(ft_long_hexadecimal(0,val_ptr), 1);
-    write(1, "\n", 2);
-}
-int main()
-{
-    int a;
-    void *p;
-    p = &a;
-    ft_pointeradress(p);
 }

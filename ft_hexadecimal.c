@@ -1,30 +1,6 @@
-#include <stdlib.h>
-char    *ft_strdup(const char *s)
-{
-    char    *arr;
-    int     i;
-    int     length;
-
-    length = 0;
-    i = 0;
-    while (s[length])
-        length++;
-    arr = malloc(sizeof(char) * (length + 1));
-    if (!arr)
-        return (NULL);
-    if (s[i] == '\0')
-    {
-        arr[0] = '\0';
-        return (arr);
-    }
-    while (s[i] && i <= length)
-    {
-        arr[i] = s[i];
-        i++;
-    }
-    arr[i] = '\0';
-    return (arr);
-}
+#include "ft_printf.h"
+#include "libft/libft.h"
+#include <stdarg.h>
 static char    *ft_checklowupcase(int a)
 {
     char    *letters;
@@ -66,10 +42,10 @@ static int setsize(int nb)
 char    *ft_hexadecimal(int a, int nb)
 {
     int    count;
-    int    minus;
     char    *letters;
     char    *str;
 
+    count = 0;
     count = count + setsize(nb) - 1;
     str = malloc(sizeof(char) * (count + 1));
     if (!str)
