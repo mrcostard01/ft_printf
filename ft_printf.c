@@ -31,6 +31,40 @@ void ft_printf_char (va_list infos)
 	value = (int)va_arg(infos, int);
 	ft_putchar_fd(value, 1);
 }
+//print a string
+/*void ft_printf_string (va_list infos)
+{
+	char *value;
+
+	value = (char *)va_arg(infos, char);
+	ft_putstr_fd(value, 1);
+}*/
+//print hexadecimal in lowcase
+void ft_printf_hexadecimallow (va_list infos)
+{
+	int value;
+
+	value = (int)va_arg(infos, int);
+	ft_putstr_fd(ft_hexadecimal(0,value), 1);
+}
+//printf hexadecimal upcase
+void ft_printf_hexadecimalup (va_list infos)
+{
+	int value;
+
+	value = (int)va_arg(infos, int);
+	ft_putstr_fd(ft_hexadecimal(1,value), 1);
+}
+//print poiter's address
+void ft_printf_pointer (va_list infos)
+{
+	void	*value;
+
+	value = va_arg(infos, void*);
+	
+	ft_pointeradress(infos);
+}
+
 // initialize the list
 t_flag *init_flag(int element, void (*f)(va_list))
 {
@@ -86,6 +120,10 @@ int ft_printf(const char *s, ...)
 	va_start(infos, s);
 	root = init_flag('c', &ft_printf_char);
 	add_flag(root, 'd', &ft_printf_integer);
+	//add_flag(root, 's', &ft_printf_string);
+	add_flag(root, 'x', &ft_printf_hexadecimallow);
+	add_flag(root, 'X', &ft_printf_hexadecimalup);
+	add_flag(root, 'p', &ft_printf_pointer);
 	i = 0;
 	while (s[i] != '\0')
 	{
@@ -105,4 +143,11 @@ int ft_printf(const char *s, ...)
 	va_end(infos);
 	return (0);
 }
+#include <stdio.h>
+int		main()
+{
+	void	*p = "";
 
+	printf("%p\n", p);
+	ft_printf("%p\n", p);
+}

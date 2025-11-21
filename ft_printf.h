@@ -25,6 +25,6 @@ struct s_flag *next;
 typedef struct s_flag t_flag;
 
 char    *ft_hexadecimal(int a, int nb);
-void     ft_pointeradress(void *p);
+void      ft_pointeradress(void *p);
 int    ft_printf(const char *s, ...);
 #endif
