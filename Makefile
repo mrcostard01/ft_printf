@@ -9,34 +9,48 @@
 #    Updated: 2025/10/16 17:46:11 by wipion           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+NAME			=	libftprintf.a
 
-SRCS		=	ft_hexadecimal.c ft_pointeradress.c ft_printf.c libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c \
-				libft/ft_isascii.c libft/ft_isprint.c libft/ft_strlen.c libft/ft_memset.c libft/ft_bzero.c libft/ft_memcpy.c \
-				libft/ft_memmove.c libft/ft_strlcpy.c libft/ft_strlcat.c libft/ft_toupper.c libft/ft_tolower.c libft/ft_strchr.c \
-				libft/ft_strrchr.c libft/ft_strncmp.c libft/ft_memchr.c libft/ft_memcmp.c libft/ft_strnstr.c libft/ft_atoi.c \
-				libft/ft_strdup.c libft/ft_calloc.c libft/ft_substr.c libft/ft_strtrim.c libft/ft_split.c libft/ft_strjoin.c \
-				libft/ft_itoa.c libft/ft_strmapi.c libft/ft_striteri.c libft/ft_putchar_fd.c libft/ft_putstr_fd.c libft/ft_putendl_fd.c \
-				libft/ft_putnbr_fd.c libft/ft_free_array.c libft/ft_lenarr2d.c 
+CC				=	gcc
+CFLAGS			=	-Wall -Wextra -Werror
+AR				=	ar
+ARFLAGS 		=	rcs
+RM				=	rm -rf
 
-OBJS		= $(SRCS:.c=.o)
+SRC				=	ft_printf ft_pointeradress ft_hexadecimal
+SRCS 			=	$(addsuffix .c, $(SRC))
 
-CC		= gcc
-RM		= rm -f
-CFLAGS		= -Wall -Werror -Wextra
+OBJ_DIR			=	obj
+OBJS			=	$(SRCS:%.c=$(OBJ_DIR)/%.o)
 
-NAME		= libftprintf.a
+LIBFT_PATH		=	./libft
+LIBFT			=	$(LIBFT_PATH)/libft.a
 
-all:		$(NAME)
+$(OBJ_DIR)/%.o:		%.c
+					$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME):	$(OBJS)
-		ar rcs $(NAME) $(OBJS)
-clean:		  
-		$(RM) $(OBJS)
+all:				$(NAME)
 
-fclean:		clean
-		$(RM) $(NAME)
+bonus:				all
 
-re:		fclean $(NAME)
+$(NAME):			$(LIBFT) $(OBJ_DIR) $(OBJS)
+				cp	$(LIBFT) $(NAME)
+					$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 
-.PHONY:		all clean fclean re
+$(LIBFT):
+					make -C $(LIBFT_PATH) all
 
+$(OBJ_DIR):
+					mkdir -p $(OBJ_DIR)
+
+clean:
+					make -C $(LIBFT_PATH) clean
+					$(RM) $(OBJ_DIR)
+
+fclean:				clean
+					make -C $(LIBFT_PATH) fclean
+					$(RM) $(NAME)
+
+re:					fclean all
+
+.PHONY:				all bonus clean fclean re libft

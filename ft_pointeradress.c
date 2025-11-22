@@ -70,8 +70,11 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 }
-void    ft_pointeradress(void *p)
+void    ft_pointeradress(va_list infos)
 {
+	void *p;
+
+	p = va_arg(infos, void *);
     size_t  val_ptr;
     val_ptr = (size_t)p;
     ft_putstr_fd("0x", 1);
