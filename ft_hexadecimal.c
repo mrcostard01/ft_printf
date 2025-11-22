@@ -47,7 +47,7 @@ char    *ft_hexadecimal(int a, int nb)
 
     count = 0;
     count = count + setsize(nb) - 1;
-    str = malloc(sizeof(char) * (count + 1));
+    str = malloc(sizeof(char) * count);
     if (!str)
         return (NULL);
     letters = ft_checklowupcase(a);

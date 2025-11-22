@@ -21,6 +21,17 @@ void ft_printf_integer (va_list infos)
 	value = (int)va_arg(infos, int);
 	ft_putnbr_fd(value, 1);
 }
+//print positive integer
+void ft_printf_unsigned_int (va_list infos)
+{
+	int value;
+
+	value = (int)va_arg(infos, int);
+	if ( value >= 0)
+		ft_putnbr_fd(value, 1);
+	else
+		return;
+}
 //print a single caracter
 void ft_printf_char (va_list infos)
 {
@@ -57,8 +68,13 @@ void ft_printf_hexadecimalup (va_list infos)
 void ft_printf_pointer (va_list infos)
 {
 	ft_pointeradress(infos);
-}
 
+}
+//display a percent
+void ft_printf_percent()
+{
+	ft_putchar_fd('%' ,1);
+}
 // initialize the list
 t_flag *init_flag(int element, func_va_t f)
 {
@@ -104,6 +120,18 @@ int start_printf_function(t_flag *root, char c, va_list infos)
 		}
 	return (0);
 }
+void end_printf_function(t_flag *root)
+{
+	t_flag *tmp;
+
+    while (root != NULL)
+    {
+        tmp = root->next;
+        free(root);         
+        root = tmp;         
+    }
+}
+
 // main function
 int ft_printf(const char *s, ...)
 {
@@ -112,12 +140,16 @@ int ft_printf(const char *s, ...)
 	int i;
 	int result;
 	va_start(infos, s);
+
 	root = init_flag('c', &ft_printf_char);
 	add_flag(root, 'd', &ft_printf_integer);
+	add_flag(root, 'i', &ft_printf_integer);
 	add_flag(root, 's', &ft_printf_string);
 	add_flag(root, 'x', &ft_printf_hexadecimallow);
 	add_flag(root, 'X', &ft_printf_hexadecimalup);
 	add_flag(root, 'p', &ft_printf_pointer);
+	add_flag(root, 'u', &ft_printf_unsigned_int);
+	add_flag(root, '%', &ft_printf_percent);
 	i = 0;
 	while (s[i] != '\0')
 	{
@@ -134,6 +166,7 @@ int ft_printf(const char *s, ...)
 			ft_putchar_fd(s[i], 1);
 		i++;
 	}
+	end_printf_function(root);
 	va_end(infos);
 	return (0);
 }

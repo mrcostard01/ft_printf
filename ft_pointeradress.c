@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 #include "libft/libft.h"
-#include <stdarg.h>
+
 static char    *ft_checklowupcase(int a)
 {
     char    *letters;
@@ -53,22 +53,6 @@ char    *ft_long_hexadecimal(int a, size_t nb)
     ft_makestr(str, letters, count, nb);
     free(letters);
     return (str);
-}
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return ;
-	if (fd < 0)
-		return ;
-	while (s[i] != '\0')
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
 }
 void    ft_pointeradress(va_list infos)
 {
