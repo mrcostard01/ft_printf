@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 #include "libft/libft.h"
-
+# include <stdarg.h>
 static char    *ft_checklowupcase(int a)
 {
     char    *letters;
@@ -39,7 +39,7 @@ static int setsize(size_t nb)
     return (count);
 }
 
-char    *ft_long_hexadecimal(int a, size_t nb)
+void    *ft_long_hexadecimal(int a, size_t nb)
 {
     int     count;
     char    *letters;
@@ -52,15 +52,19 @@ char    *ft_long_hexadecimal(int a, size_t nb)
     letters = ft_checklowupcase(a);
     ft_makestr(str, letters, count, nb);
     free(letters);
-    return (str);
+    ft_putstr_fd(str, 1);
+    return(str);
 }
 void    ft_pointeradress(va_list infos)
 {
+    char    *str;
 	void *p;
 
 	p = va_arg(infos, void *);
     size_t  val_ptr;
     val_ptr = (size_t)p;
+    str = ft_long_hexadecimal(0,val_ptr);
     ft_putstr_fd("0x", 1);
-    ft_putstr_fd(ft_long_hexadecimal(0,val_ptr), 1);
+    ft_long_hexadecimal(0,val_ptr);
+    free(str);
 }

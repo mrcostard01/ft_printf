@@ -13,15 +13,15 @@ static char    *ft_checklowupcase(int a)
         return (NULL);
     return (letters);
 }
-static char    *ft_makestr(char *str, char *letters, int count, int nb)
+static char    *ft_makestr(char *str,char *letters, int count, int infos)
 {
     while (count >= 0)
     {
-        if ((nb % 16) > 9)
-            str[count] = letters[(nb % 16) - 10];
+        if ((infos% 16) > 9)
+            str[count] = letters[(infos % 16) - 10];
         else 
-            str[count] = (nb % 16) + (48);
-        nb /= 16;
+            str[count] = (infos % 16) + (48);
+        infos /= 16;
         count--;
     }
     return (str);
@@ -46,7 +46,7 @@ char    *ft_hexadecimal(int a, int nb)
     char    *str;
 
     count = 0;
-    count = count + setsize(nb) - 1;
+    count = count + setsize(nb);
     str = malloc(sizeof(char) * count);
     if (!str)
         return (NULL);

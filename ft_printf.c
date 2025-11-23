@@ -14,15 +14,16 @@
 #include "libft/libft.h"
 
 // print an integer
-void ft_printf_integer (va_list infos)
+int ft_printf_integer (va_list infos)
 {
-	int value;
+	char *value;
 
-	value = (int)va_arg(infos, int);
-	ft_putnbr_fd(value, 1);
+	value = ft_itoa((int)va_arg(infos, int));
+	ft_putstr_fd(value, 1);
+	return (ft_strlen(value));
 }
 //print positive integer
-void ft_printf_unsigned_int (va_list infos)
+int ft_printf_unsigned_int (va_list infos)
 {
 	int value;
 
@@ -33,7 +34,7 @@ void ft_printf_unsigned_int (va_list infos)
 		return;
 }
 //print a single caracter
-void ft_printf_char (va_list infos)
+int ft_printf_char (va_list infos)
 {
 	int value;
 
@@ -41,15 +42,21 @@ void ft_printf_char (va_list infos)
 	ft_putchar_fd(value, 1);
 }
 //print a string
-void ft_printf_string (va_list infos)
+int ft_printf_string (va_list infos)
 {
 	char *value;
 
 	value = (char *)va_arg(infos, char *);
+	if (value[0] == '\0')
+	{
+		ft_putchar_fd(value[0], 1);
+		return ;
+	}
 	ft_putstr_fd(value, 1);
+	return (ft_strlen(value));
 }
 //print hexadecimal in lowcase
-void ft_printf_hexadecimallow (va_list infos)
+int ft_printf_hexadecimallow (va_list infos)
 {
 	int value;
 
@@ -57,7 +64,7 @@ void ft_printf_hexadecimallow (va_list infos)
 	ft_putstr_fd(ft_hexadecimal(0,value), 1);
 }
 //printf hexadecimal upcase
-void ft_printf_hexadecimalup (va_list infos)
+int ft_printf_hexadecimalup (va_list infos)
 {
 	int value;
 
@@ -65,15 +72,15 @@ void ft_printf_hexadecimalup (va_list infos)
 	ft_putstr_fd(ft_hexadecimal(1,value), 1);
 }
 //print poiter's address
-void ft_printf_pointer (va_list infos)
+int ft_printf_pointer (va_list infos)
 {
 	ft_pointeradress(infos);
-
 }
 //display a percent
-void ft_printf_percent()
+int ft_printf_percent(va_list infos)
 {
-	ft_putchar_fd('%' ,1);
+	(void)infos;
+	ft_putchar_fd('%', 1);
 }
 // initialize the list
 t_flag *init_flag(int element, func_va_t f)
@@ -120,6 +127,7 @@ int start_printf_function(t_flag *root, char c, va_list infos)
 		}
 	return (0);
 }
+// free everything in the list
 void end_printf_function(t_flag *root)
 {
 	t_flag *tmp;
@@ -137,6 +145,7 @@ int ft_printf(const char *s, ...)
 {
 	t_flag *root;
 	va_list infos;
+
 	int i;
 	int result;
 	va_start(infos, s);
@@ -156,7 +165,7 @@ int ft_printf(const char *s, ...)
 		if (s[i] == '%')
 			{
 				if (s[i + 1] == '\0')
-					break;
+					break ;
 				result = start_printf_function(root, s[i + 1], infos);
 				if (result == 0)
 					ft_putchar_fd(s[i+1], 1);
@@ -168,5 +177,9 @@ int ft_printf(const char *s, ...)
 	}
 	end_printf_function(root);
 	va_end(infos);
-	return (0);
-}
+	return (i);
+}/*
+int	main()
+{
+		ft_printf("%X %X", 186456, 18644564556);
+}*/

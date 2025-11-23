@@ -16,6 +16,8 @@
 # include <stdarg.h>
 # include "libft/libft.h"
 
+
+
 typedef void (*func_va_t)(va_list);
 struct s_flag{
 	char element;
@@ -23,8 +25,7 @@ struct s_flag{
 struct s_flag *next;
 };
 typedef struct s_flag t_flag;
-
+void    	ft_pointeradress(va_list infos);
 char    *ft_hexadecimal(int a, int nb);
-void      ft_pointeradress(va_list infos);
-int    ft_printf(const char *s, ...);
+int    		ft_printf(const char *s, ...);
 #endif

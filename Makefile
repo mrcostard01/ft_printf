@@ -31,8 +31,6 @@ $(OBJ_DIR)/%.o:		%.c
 
 all:				$(NAME)
 
-bonus:				all
-
 $(NAME):			$(LIBFT) $(OBJ_DIR) $(OBJS)
 				cp	$(LIBFT) $(NAME)
 					$(AR) $(ARFLAGS) $(NAME) $(OBJS)
@@ -53,4 +51,4 @@ fclean:				clean
 
 re:					fclean all
 
-.PHONY:				all bonus clean fclean re libft
+.PHONY:				all clean fclean re libft
