@@ -14,7 +14,7 @@
 #include "libft/libft.h"
 
 // print an integer
-int ft_printf_integer (va_list infos)
+static int ft_printf_integer (va_list infos)
 {
 	int value;
 	char	*str;
@@ -29,7 +29,7 @@ int ft_printf_integer (va_list infos)
 	return (len);
 }
 //print positive integer
-int ft_printf_unsigned_int (va_list infos)
+static int ft_printf_unsigned_int (va_list infos)
 {
 	unsigned int value;
 	char	*str;
@@ -44,7 +44,7 @@ int ft_printf_unsigned_int (va_list infos)
 	return (len);
 }
 //print a single caracter
-int ft_printf_char (va_list infos)
+static int ft_printf_char (va_list infos)
 {
 	int value;
 
@@ -53,7 +53,7 @@ int ft_printf_char (va_list infos)
 	return (1);
 }
 //print a string
-int ft_printf_string (va_list infos)
+static int ft_printf_string (va_list infos)
 {
 	char *value;
 	int	len;
@@ -72,7 +72,7 @@ int ft_printf_string (va_list infos)
 	return (len);
 }
 //print hexadecimal in lowcase
-int ft_printf_hexadecimallow (va_list infos)
+static int ft_printf_hexadecimallow (va_list infos)
 {
 	unsigned int value;
 	char *str;
@@ -89,7 +89,7 @@ int ft_printf_hexadecimallow (va_list infos)
     return (len);
 }
 //printf hexadecimal upcase
-int ft_printf_hexadecimalup (va_list infos)
+static int ft_printf_hexadecimalup (va_list infos)
 {
 	unsigned int	value;
 	char *str;
@@ -106,7 +106,7 @@ int ft_printf_hexadecimalup (va_list infos)
     return (len);
 }
 //print poiter's address
-int ft_printf_pointer (va_list infos)
+static int ft_printf_pointer (va_list infos)
 {
 	int	len;
 	char *value;
@@ -128,14 +128,14 @@ int ft_printf_pointer (va_list infos)
 	return (len + 2);
 }
 //display a percent
-int ft_printf_percent(va_list infos)
+static int ft_printf_percent(va_list infos)
 {
 	(void)infos;
 	ft_putchar_fd('%', 1);
     return (1);
 }
 // initialize the list
-t_flag *init_flag(int element, func_va_t f)
+static t_flag *init_flag(int element, func_va_t f)
 {
 	t_flag *flag;
 
@@ -148,7 +148,7 @@ t_flag *init_flag(int element, func_va_t f)
 	return (flag);
 }
 // make a new node
-int add_flag(t_flag *root, int element, func_va_t f)
+static int add_flag(t_flag *root, int element, func_va_t f)
 {
 	t_flag *flag;
 
@@ -164,7 +164,7 @@ int add_flag(t_flag *root, int element, func_va_t f)
 	return (0);
 }
 // fill the first node
-int start_printf_function(t_flag *root, char c, va_list infos)
+static int start_printf_function(t_flag *root, char c, va_list infos)
 {
 	t_flag *flag;
 	int 	len;
@@ -182,7 +182,7 @@ int start_printf_function(t_flag *root, char c, va_list infos)
 	return (len);
 }
 // free everything in the list
-void end_printf_function(t_flag *root)
+static void end_printf_function(t_flag *root)
 {
 	t_flag *tmp;
 
@@ -193,7 +193,20 @@ void end_printf_function(t_flag *root)
         root = tmp;         
     }
 }
-
+static void *call_flag(void)
+{
+	t_flag *root;
+	root = init_flag('c', &ft_printf_char);
+	add_flag(root, 'd', &ft_printf_integer);
+	add_flag(root, 'i', &ft_printf_integer);
+	add_flag(root, 's', &ft_printf_string);
+	add_flag(root, 'x', &ft_printf_hexadecimallow);
+	add_flag(root, 'X', &ft_printf_hexadecimalup);
+	add_flag(root, 'p', &ft_printf_pointer);
+	add_flag(root, 'u', &ft_printf_unsigned_int);
+	add_flag(root, '%', &ft_printf_percent);
+	return(root);
+}
 // main function
 int ft_printf(const char *s, ...)
 {
@@ -207,15 +220,7 @@ int ft_printf(const char *s, ...)
 
 	result = 0;
 	tmpresult = 0;
-	root = init_flag('c', &ft_printf_char);
-	add_flag(root, 'd', &ft_printf_integer);
-	add_flag(root, 'i', &ft_printf_integer);
-	add_flag(root, 's', &ft_printf_string);
-	add_flag(root, 'x', &ft_printf_hexadecimallow);
-	add_flag(root, 'X', &ft_printf_hexadecimalup);
-	add_flag(root, 'p', &ft_printf_pointer);
-	add_flag(root, 'u', &ft_printf_unsigned_int);
-	add_flag(root, '%', &ft_printf_percent);
+	root = call_flag();
 	i = 0;
 	while (s[i] != '\0')
 	{
@@ -230,7 +235,8 @@ int ft_printf(const char *s, ...)
 					result += tmpresult;
 				i++;
 			}
-		else {
+		else 
+		{
 			ft_putchar_fd(s[i], 1);
 			result++;
 		}
@@ -240,13 +246,3 @@ int ft_printf(const char *s, ...)
 	va_end(infos);
 	return (result);
 }
-#include <limits.h>
-/*#include <stdio.h>
-int	main()
-{
-
-printf("p: %p\n", 0);
-ft_printf("ft_p: %p\n", 0);
-printf("p null: %p\n", LONG_MAX);
-ft_printf("ft_p null: %p\n", LONG_MAX);
-}*/

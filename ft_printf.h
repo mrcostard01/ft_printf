@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wipion <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -25,8 +25,7 @@ struct s_flag{
 struct s_flag *next;
 };
 typedef struct s_flag t_flag;
-char  *ft_pointeradress(va_list infos);
- char    *ft_int_to_char(long long int nb, char *base);
+char	*ft_pointeradress(va_list infos);
 char    *ft_unsigned_int_to_char(unsigned long long nb, char *base);
-int    		ft_printf(const char *s, ...);
+int		ft_printf(const char *s, ...);
 #endif

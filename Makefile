@@ -20,8 +20,7 @@ RM				=	rm -rf
 SRC				=	ft_printf ft_pointeradress ft_hexadecimal
 SRCS 			=	$(addsuffix .c, $(SRC))
 
-OBJ_DIR			=	obj
-OBJS			=	$(SRCS:%.c=$(OBJ_DIR)/%.o)
+OBJS			=	$(SRCS:.c=.o)
 
 LIBFT_PATH		=	./libft
 LIBFT			=	$(LIBFT_PATH)/libft.a
