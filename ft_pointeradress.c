@@ -1,6 +1,7 @@
 #include "ft_printf.h"
 #include "libft/libft.h"
 # include <stdarg.h>
+# include <stdlib.h>
 static char    *ft_checklowupcase(int a)
 {
     char    *letters;
@@ -55,16 +56,22 @@ void    *ft_long_hexadecimal(int a, size_t nb)
     ft_putstr_fd(str, 1);
     return(str);
 }
-void    ft_pointeradress(va_list infos)
+#include <stdio.h>
+
+char  *ft_pointeradress(va_list infos)
 {
     char    *str;
-	void *p;
+	void	*p;
 
 	p = va_arg(infos, void *);
-    size_t  val_ptr;
-    val_ptr = (size_t)p;
-    str = ft_long_hexadecimal(0,val_ptr);
-    ft_putstr_fd("0x", 1);
-    ft_long_hexadecimal(0,val_ptr);
-    free(str);
+	if (p == NULL)
+		return (ft_strdup("(nil)"));
+
+	/*if ((int)va_arg(infos, int) < 0)
+		val_ptr = 4294967295 + (int)va_arg(infos, int);*/
+	//else
+    //val_ptr = (size_t)p;
+
+    str = ft_unsigned_int_to_char((unsigned long long)p, "0123456789abcdef");
+    return (str);
 }

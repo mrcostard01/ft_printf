@@ -1,57 +1,79 @@
 #include "ft_printf.h"
 #include "libft/libft.h"
 #include <stdarg.h>
-static char    *ft_checklowupcase(int a)
-{
-    char    *letters;
 
-    if (a == 1)
-        letters = ft_strdup("ABCDEF");
-    else if (a == 0)
-        letters = ft_strdup("abcdef");
-    if (!letters)
-        return (NULL);
-    return (letters);
-}
-static char    *ft_makestr(char *str,char *letters, int count, int infos)
+char    *ft_unsigned_int_to_char(unsigned long long nb, char *base)
 {
-    while (count >= 0)
-    {
-        if ((infos% 16) > 9)
-            str[count] = letters[(infos % 16) - 10];
-        else 
-            str[count] = (infos % 16) + (48);
-        infos /= 16;
-        count--;
+    int size;
+    unsigned long long n;
+    char *number;
+
+    size = 0;
+    n = nb;
+
+    while (n > 0) {
+        size++;
+        n = n / ft_strlen(base);
     }
-    return (str);
-}
-static int setsize(int nb)
-{
-    int    count;
-
-    count = 0;
-    while (nb > 0)
-    {
-        nb = nb / 16;
-        count++;
-    }
-    return (count);
-}
-
-char    *ft_hexadecimal(int a, int nb)
-{
-    int    count;
-    char    *letters;
-    char    *str;
-
-    count = 0;
-    count = count + setsize(nb);
-    str = malloc(sizeof(char) * count);
-    if (!str)
+    number = malloc(sizeof(char) * (size + 2));
+    if (!number)
         return (NULL);
-    letters = ft_checklowupcase(a);
-    ft_makestr(str, letters, count, nb);
-    free(letters);
-    return (str);
+    if (nb == 0) {
+            number[0] = base[0];
+            number[1] = '\0';
+            return number;
+        }
+    number[size] = '\0';
+    n = nb;
+    while (n > 0)
+        {
+            number[size-1] = base[n % ft_strlen(base)];
+            size--;
+            n = n / ft_strlen(base);
+        }
+    return (number);
+}
+
+
+
+
+char    *ft_int_to_char(long long nb, char *base)
+{
+    int size;
+    long long n;
+    char *number;
+    char negative;
+
+    negative = 0;
+    size = 0;
+    n = nb;
+    if (n < 0) {
+            n *= -1;
+            negative = 1;
+        }
+    while (n > 0) {
+        size++;
+        n = n / ft_strlen(base);
+    }
+    number = malloc(sizeof(char) * (size + negative + 2));
+    if (!number)
+        return (NULL);
+    if (nb == 0) {
+            number[0] = base[0];
+            number[1] = '\0';
+            return number;
+        }
+    if (negative)
+        number[0] = '-';
+    number[size+negative] = '\0';
+    n = nb;
+    if (negative == 1)
+        n *= -1;
+    while (n > 0)
+        {
+            number[size+negative-1] = base[n % ft_strlen(base)];
+            size--;
+            n = n / ft_strlen(base);
+        }
+    return (number);
 }
