@@ -26,6 +26,13 @@ struct s_flag *next;
 };
 typedef struct s_flag t_flag;
 char	*ft_pointeradress(va_list infos);
-char    *ft_unsigned_int_to_char(unsigned long long nb, char *base);
+int		add_flag(t_flag *root, int element, func_va_t f);
+void	*call_flag(void);
+void *call_flag2(t_flag *root);
+int ft_printf_char (va_list infos);
+int ft_printf_integer (va_list infos);
+int ft_printf_unsigned_int (va_list infos);
+int ft_printf_string (va_list infos);
+t_flag *init_flag(int element, func_va_t f);
 int		ft_printf(const char *s, ...);
 #endif

@@ -17,7 +17,7 @@ AR				=	ar
 ARFLAGS 		=	rcs
 RM				=	rm -rf
 
-SRC				=	ft_printf ft_pointeradress ft_hexadecimal
+SRC				=	ft_printf ft_pointeradress flags flags2
 SRCS 			=	$(addsuffix .c, $(SRC))
 
 OBJS			=	$(SRCS:.c=.o)
