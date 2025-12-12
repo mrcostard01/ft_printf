@@ -9,45 +9,45 @@
 #    Updated: 2025/10/16 17:46:11 by wipion           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-NAME			=	libftprintf.a
+NAME            = libftprintf.a
 
-CC				=	gcc
-CFLAGS			=	-Wall -Wextra -Werror
-AR				=	ar
-ARFLAGS 		=	rcs
-RM				=	rm -rf
+CC              = gcc
+CFLAGS          = -Wall -Wextra -Werror
+AR              = ar
+ARFLAGS         = rcs
+RM              = rm -rf
 
-SRC				=	ft_printf ft_pointeradress flags flags2
-SRCS 			=	$(addsuffix .c, $(SRC))
+SRC             = ft_printf.c ft_pointeradress.c flags.c flags2.c
 
-OBJS			=	$(SRCS:.c=.o)
+OBJ_DIR         = obj
+OBJS            = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
-LIBFT_PATH		=	./libft
-LIBFT			=	$(LIBFT_PATH)/libft.a
+LIBFT_PATH      = ./libft
+LIBFT           = $(LIBFT_PATH)/libft.a
 
-$(OBJ_DIR)/%.o:		%.c
-					$(CC) $(CFLAGS) -c $< -o $@
+all:            $(NAME)
 
-all:				$(NAME)
+$(NAME):        $(LIBFT) $(OBJ_DIR) $(OBJS)
+			cp $(LIBFT) $(NAME)
+				$(AR) $(ARFLAGS) $(NAME) $(OBJS)
 
-$(NAME):			$(LIBFT) $(OBJ_DIR) $(OBJS)
-				cp	$(LIBFT) $(NAME)
-					$(AR) $(ARFLAGS) $(NAME) $(OBJS)
-
-$(LIBFT):
-					make -C $(LIBFT_PATH) all
+$(OBJ_DIR)/%.o: %.c
+				$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR):
-					mkdir -p $(OBJ_DIR)
+				mkdir -p $(OBJ_DIR)
+
+$(LIBFT):
+				$(MAKE) -C $(LIBFT_PATH)
 
 clean:
-					make -C $(LIBFT_PATH) clean
-					$(RM) $(OBJ_DIR)
+				$(MAKE) -C $(LIBFT_PATH) clean
+				$(RM) $(OBJ_DIR)
 
-fclean:				clean
-					make -C $(LIBFT_PATH) fclean
-					$(RM) $(NAME)
+fclean: 		clean
+				$(MAKE) -C $(LIBFT_PATH) fclean
+				$(RM) $(NAME)
 
-re:					fclean all
+re: 			fclean all
 
-.PHONY:				all clean fclean re libft
+.PHONY: 		all clean fclean re
